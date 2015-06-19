@@ -39,11 +39,11 @@ router.route('/posts')
   // creates a new post
   .post(function (req, res) {
 
-    var newPost         = new Post();
-    newPost.text        = req.body.text;
-    newPost.username  = req.body.username;
+    var post          = new Post();
+    post.text         = req.body.text;
+    post.username     = req.body.username;
 
-    Post.insert( function(err, newPost) {
+    post.save( function(err, post) {
 
       // if stuck in some error
       if (err) {
@@ -51,7 +51,7 @@ router.route('/posts')
       }
 
       // if there is not error and we have the data
-      return res.json(newPost);
+      return res.json(post);
 
     });
   });
@@ -59,8 +59,8 @@ router.route('/posts')
 router.route('/posts/:id')
   // return id based posts
   .get(function (req, res) {
-    var getPost = new Post();
-    getPost.findById(req.params.id, function (err, post) {
+    // var getPost = new Post();
+    Post.findById(req.params.id, function (err, post) {
 
       // if stuck in some error
       if (err) {

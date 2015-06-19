@@ -12,8 +12,9 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/mean-login-app');
 require('./model/model');
 
-var api = require('./routes/api');
-var authenticate = require('./routes/authenticate')(passport);
+var index         = require('./routes/index');
+var api           = require('./routes/api');
+var authenticate  = require('./routes/authenticate')(passport);
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.use(passport.session());
 var initPassport = require('./passport-init');
 initPassport(passport);
 
+app.use('/', index);
 app.use('/api', api);
 app.use('/auth', authenticate);
 
