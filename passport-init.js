@@ -1,7 +1,9 @@
 var LocalStrategy   = require('passport-local').Strategy;
 var bCrypt = require('bcrypt-nodejs');
+
 //temporary data store
-var users = {};
+var user = {};
+
 module.exports = function(passport){
 
     // Passport needs to be able to serialize and deserialize users to support persistent login sessions
@@ -39,7 +41,7 @@ module.exports = function(passport){
     ));
 
     passport.use('signup', new LocalStrategy({
-            passReqToCallback : true; // allows us to pass back the entire request to the callback
+            passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req, username, password, done) {
 
@@ -52,7 +54,7 @@ module.exports = function(passport){
             user[username] = {
 
                 username: username,
-                password: createHash(password);
+                password: createHash(password)
             };
             return done(null, user[username]);
 

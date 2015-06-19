@@ -3,12 +3,13 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var passport = require('passport');
-var sessions = require('express-session');
+var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var api = require('./routes/api');
-// var authenticate = require('./routes/authenticate');
+var authenticate = require('./routes/authenticate')(passport);
+var mongoose = require('mongoose');
 
 var app = express();
 
@@ -28,8 +29,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
+
+//// Initialize Passport
+var initPassport = require('./passport-init');
+initPassport(passport);
+
 app.use('/api', api);
-// app.use('/auth', authenticate);
+app.use('/auth', authenticate);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -64,3 +70,21 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
+//Used for routes that must be authenticated.
+function isAuthenticated (req, res, next) {
+    // if user is authenticated in the session, call the next() to call the next request handler 
+    // Passport adds this method to request object. A middleware is allowed to add properties to
+    // request and response objects
+
+    //allow all get request methods
+    if(req.method === "GET"){
+        return next();
+    }
+    if (req.isAuthenticated()){
+        return next();
+    }
+
+    // if the user is not authenticated then redirect him to the login page
+    return res.redirect('/#login');
+};
