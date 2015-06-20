@@ -1,17 +1,24 @@
 meanLoginApp
 .controller('loginController',
 
-  function ($scope, $http, $rootscope, $location) {
+  function ($scope, $http, $rootScope, $location) {
     
-    $http.post('/auth/login', $scope.user).success( function (data) {
-      $rootScope.authenticate = true;
-      $rootScope.current_user = data.user.username;
+    $scope.loginUser = function () {
+      $scope.user = {
+        username: $scope.username,
+        password: $scope.password
+      }
 
-      // now go to main page
-      $location.path('/');
-    })
-    .error(function (err) {
-      console.log('Unable to connect', err);
-    });
+      $http.post('/auth/login', $scope.user).success( function (data) {
+        $rootScope.authenticated = true;
+        $rootScope.current_user = data.user.username;
+        
+        // now go to main page
+        $location.path('/');
+      })
+      .error(function (err) {
+        console.log('Unable to connect', err);
+      });
+    } 
   }
 );

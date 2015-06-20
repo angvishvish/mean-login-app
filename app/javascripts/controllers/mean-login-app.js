@@ -4,6 +4,15 @@ var meanLoginApp = angular.module('meanLoginApp', [
 ]).run(function ($rootScope, $http) {
   $rootScope.authenticated  = false;
   $rootScope.current_user   = '';
+
+  $rootScope.logoutUser = function () {
+
+    $http.get('/auth/signout');
+
+    // nullfy the rootscope
+    $rootScope.authenticated  = false;
+    $rootScope.current_user   = '';
+  }
 });
 
 meanLoginApp
