@@ -21,6 +21,7 @@ router.use(function (req, res, next) {
 });
 
 router.route('/posts')
+
   // return all the posts
   .get(function (req, res) {
 

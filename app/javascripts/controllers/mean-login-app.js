@@ -1,6 +1,7 @@
 
 var meanLoginApp = angular.module('meanLoginApp', [
-  'ngRoute'
+  'ngRoute',
+  'ngResource'
 ]).run(function ($rootScope, $http) {
   $rootScope.authenticated  = false;
   $rootScope.current_user   = '';
@@ -15,8 +16,12 @@ var meanLoginApp = angular.module('meanLoginApp', [
   }
 });
 
-meanLoginApp
-.config(function ($routeProvider) {
+meanLoginApp.factory('postService', function ($resource) {
+  
+  return $resource('/api/posts');
+});
+
+meanLoginApp.config(function ($routeProvider) {
   $routeProvider
 
     // when in the home page 
@@ -38,12 +43,12 @@ meanLoginApp
     });
 });
 
-meanLoginApp
-.controller('postController',
+meanLoginApp.controller('postController',
 
-  function ($scope, $rootScope) {
+  function ($scope, $rootScope, postService) {
 
-    $scope.posts = [];
+    $scope.posts = postService.query();
+    console.log($scope.posts);
 
     $scope.newPost = {
       id: '',
@@ -58,11 +63,13 @@ meanLoginApp
       $scope.newPost.created_at = Date.now();
       $scope.newPost.created_by = $rootScope.current_user;
 
-      $scope.posts.push($scope.newPost);
-
-      $scope.newPost = {
-        text: ''
-      };
+      postService.save($scope.newPost, function () {
+        $scope.posts = postService.query();
+        $scope.newPost = {
+          text: ''
+        };
+      });
+      
     };
 
     $scope.deleteTweet = function (index) {
