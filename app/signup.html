@@ -1,0 +1,16 @@
+<div class="row register">
+  <div class="col-md-4 col-md-offset-4">
+    <h3 class="text-center">Register now</h3>
+    <form>
+      <div class="form-group">
+        <input ng-model="username" type="text" name="username" class="form-control" autofocus>
+      </div>
+      <div class="form-group">
+        <input ng-model="password" type="password" name="username" class="form-control">
+      </div>
+      <div class="form-group">
+        <button ng-disabled="username.length ==0; password.length == 0" ng-click="registerUser();" class="btn btn-success btn-block">Register</button>
+      </div>
+    </form>    
+  </div>
+</div>
