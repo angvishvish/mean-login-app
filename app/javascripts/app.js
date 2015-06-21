@@ -1,33 +1,34 @@
+
 var meanLoginApp = angular.module('meanLoginApp', [
   'ngRoute',
   'ngResource'
-])
-.run(function($rootScope) {
-  $rootScope.authenticated = false;
-  $rootScope.current_user = '';
-  
-  $rootScope.signout = function(){
-      $http.get('auth/signout');
-      $rootScope.authenticated = false;
-      $rootScope.current_user = '';
-  };
+]).run(function ($rootScope, $http) {
+  $rootScope.authenticated  = false;
+  $rootScope.current_user   = '';
+
+  $rootScope.logoutUser = function () {
+
+    $http.get('/auth/signout');
+
+    // nullfy the rootscope
+    $rootScope.authenticated  = false;
+    $rootScope.current_user   = '';
+  }
 });
 
-
-meanLoginApp
-.config(function ($routeProvider) {
+meanLoginApp.config(function ($routeProvider) {
   $routeProvider
 
     // when in the home page 
     .when('/', {
-      templateUrl: 'index.html',
+      templateUrl: 'post.html',
       controller: 'postController'
     })
 
     // when in the login page
     .when('/login', {
       templateUrl: 'login.html',
-      controller: 'authController'
+      controller: 'loginController'
     })
 
     // when in the signup page

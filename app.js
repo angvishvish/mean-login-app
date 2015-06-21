@@ -1,29 +1,29 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var passport = require('passport');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var express             = require('express');
+var path                = require('path');
+var favicon             = require('serve-favicon');
+var logger              = require('morgan');
+var passport            = require('passport');
+var session             = require('express-session');
+var cookieParser        = require('cookie-parser');
+var bodyParser          = require('body-parser');
 
-var mongoose = require('mongoose');
+var mongoose            = require('mongoose');
 // connect to mongodb
 mongoose.connect('mongodb://localhost/mean-login-app');
 require('./model/model');
 
-var index         = require('./routes/index');
-var api           = require('./routes/api');
-var authenticate  = require('./routes/authenticate')(passport);
+var index               = require('./routes/index');
+var api                 = require('./routes/api');
+var authenticate        = require('./routes/authenticate')(passport);
 
-var app = express();
+var app                 = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/app/images/favicon.ico'));
 app.use(logger('dev'));
 app.use(session({
   secret: 'super duper secret'
