@@ -42,7 +42,8 @@ router.route('/posts')
 
     var post          = new Post();
     post.text         = req.body.text;
-    post.username     = req.body.username;
+    post.created_by   = req.body.created_by;
+    post.archived     = req.body.archived;
 
     post.save( function(err, post) {
 

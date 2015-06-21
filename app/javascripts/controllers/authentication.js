@@ -12,9 +12,10 @@ meanLoginApp
       }
 
       $http.post('/auth/signup', $scope.user).success( function (data) {
+        console.log(data);
         
-        // now go to main page
-        $location.path('/');
+        // now go to login page
+        $location.path('/login');
       })
       .error(function (err) {
         console.log('Unable to connect', err);

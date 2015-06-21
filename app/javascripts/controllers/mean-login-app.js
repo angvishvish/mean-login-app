@@ -48,7 +48,6 @@ meanLoginApp.controller('postController',
   function ($scope, $rootScope, postService) {
 
     $scope.posts = postService.query();
-    console.log($scope.posts);
 
     $scope.newPost = {
       id: '',
@@ -62,6 +61,7 @@ meanLoginApp.controller('postController',
 
       $scope.newPost.created_at = Date.now();
       $scope.newPost.created_by = $rootScope.current_user;
+      $scope.archived           = false;
 
       postService.save($scope.newPost, function () {
         $scope.posts = postService.query();
@@ -74,6 +74,9 @@ meanLoginApp.controller('postController',
 
     $scope.deleteTweet = function (index) {
       $scope.posts.splice(index, 1);
+      postService.delete($scope.posts, function () {
+        console.log($scope.posts);
+      });
     };
   
   }

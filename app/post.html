@@ -2,7 +2,8 @@
   
 
   <div class="row">
-    <div class="col-md-8 col-md-offset-2">
+  
+    <div ng-show="authenticated === true" class="col-md-8 col-md-offset-2">
       <h2>Type in here to send tweets</h2>
       
       <form>
@@ -11,7 +12,7 @@
           <div class="text-muted text-right">{{ 140 - newPost.text.length }} remaining</div>
         </div>
         <div class="form-group text-right">
-          <button ng-disabled="newPost.text.length == 0" ng-click="sendTweet();" class="btn btn-primary">Tweet</button>
+          <button type="submit" ng-disabled="newPost.text.length == 0" ng-click="sendTweet();" class="btn btn-primary">Tweet</button>
         </div>
       </form>
 
@@ -21,12 +22,13 @@
       
       <div class="tweet-container">
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="tweet in posts">
-            {{ tweet.created_by }} 
-            <span class="text-info">{{ tweet.text }}</span>
-            <div class="pull-right">@{{ tweet.created_at | date:'medium'}}</div>
-            <a ng-click="deleteTweet($index);" href="" class="pull-right">Delete</a>
+          <li class="list-group-item" ng-repeat="tweet in posts | orderBy: 'created_at':true ">
+            <span class="label label-success">@{{ tweet.created_by }}</span>
+            <span class="text-info"> - {{ tweet.text }}</span>
+            <div class="pull-right">{{ tweet.created_at | date:'medium'}}</div>
+            <a ng-click="deleteTweet($index);" href="" class="pull-right hide">Delete</a>
           </li>
+          <li class="list-group-item" ng-hide="posts.length">No posts, Be the first one to create one</li>
         </ul>
       </div>
     </div>
