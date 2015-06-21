@@ -59,6 +59,9 @@ meanLoginApp.controller('postController',
     
     $scope.sendTweet = function () {
 
+      if (!$scope.newPost.text)
+        return;
+
       $scope.newPost.created_at = Date.now();
       $scope.newPost.created_by = $rootScope.current_user;
       $scope.archived           = false;
