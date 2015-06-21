@@ -32,7 +32,7 @@ meanLoginApp
         }
       })
       .error(function (err) {
-        console.log('Unable to connect', err);
+        console.log('Unable to connect');
       });
     } 
   }
